@@ -26,7 +26,7 @@ defmodule Doorman do
     user_module = user_module || get_user_module()
     user = repo_module().get_by(user_module, email: email)
     cond do
-      user && authenticate_user(user, password) -> user
+      user && user.hashed_password != nil && authenticate_user(user, password) -> user
       user -> nil
       true ->
         auth_module().dummy_checkpw()
